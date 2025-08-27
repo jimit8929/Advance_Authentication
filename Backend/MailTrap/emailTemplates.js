@@ -81,9 +81,18 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = `
     <p>Hello,</p>
     <p>We received a request to reset your password. If you didn't make this request, please ignore this email.</p>
     <p>To reset your password, click the button below:</p>
-    <div style="text-align: center; margin: 30px 0;">
-      <a href="{resetURL}" style="background-color: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Reset Password</a>
-    </div>
+   <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 30px auto;">
+  <tr>
+    <td align="center" bgcolor="#4CAF50" style="border-radius: 5px;">
+      <a href="{resetURL}" target="_blank"
+         style="font-size: 16px; font-family: Arial, sans-serif; color: #ffffff; 
+                text-decoration: none; padding: 12px 20px; display: inline-block; 
+                font-weight: bold;">
+        Reset Password
+      </a>
+    </td>
+  </tr>
+</table>
     <p>This link will expire in 1 hour for security reasons.</p>
     <p>Best regards,<br>Your App Team</p>
   </div>

@@ -1,20 +1,39 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
 import Input from "../components/Input";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom"; 
 
 //icons
-import { User, Mail, Lock } from "lucide-react";
+import { User, Mail, Lock, Loader } from "lucide-react";
 import PasswordStrength from "../components/PasswordStrength";
 
+
+//store
+import { useAuthStore } from "../Store/authStore.js";
+
+
 const SignUpPage = () => {
-  const handleSignUp = (e) => {
-    e.preventDefault();
-  };
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const {signup , error , isLoading} = useAuthStore();
+
+  const navigate = useNavigate();
+
+
+  const handleSignUp = async(e) => {
+    e.preventDefault();
+
+    try{
+      await signup(email,password,name);
+      navigate("/verify-email");
+    }
+    catch(error){
+      console.log(error);
+    }
+  };
 
   return (
     <motion.div
@@ -51,7 +70,10 @@ const SignUpPage = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
+          />  
+
+          {error && <p className="text-red-500 font-semibold mt-2">{error}</p> }
+
 
           {/* Password Strength Meter */}
           <PasswordStrength password={password}/>
@@ -61,8 +83,9 @@ const SignUpPage = () => {
             className="mt-5 w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
             whileHover={{scale : 1.02}}
             whileTap={{scale:0.95}}
-            type="submit">
-            Sign Up
+            type="submit"
+            disabled={isLoading}>
+            {isLoading ? <Loader className="animate-spin mx-auto" size={24}/> : "Sign Up" }
             </motion.button>
         </form>
       </div>

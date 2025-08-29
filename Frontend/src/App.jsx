@@ -7,10 +7,11 @@ import FloatingShapes from "./components/FloatingShapes";
 //Pages
 import SignUpPage from "./Pages/SignUpPage";
 import LoginPage from "./Pages/LoginPage";
+import EmailVerificationPage from "./Pages/EmailVerificationPage";
 
 
 import {Route , Routes} from "react-router-dom";
-import EmailVerificationPage from "./Pages/EmailVerificationPage";
+import {Toaster} from "react-hot-toast";
 
 
 const App = () => {
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/verify-email" element={<EmailVerificationPage/>}/>
       </Routes>
 
+      <Toaster/>
     </div>
   );
 };

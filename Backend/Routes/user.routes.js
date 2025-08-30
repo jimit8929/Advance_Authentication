@@ -1,5 +1,5 @@
 import express from "express";
-import {forgotPassword, loginUser, logoutUser, registerUser , verification} from "../Controllers/user.controller.js"
+import {forgotPassword, loginUser, logoutUser, registerUser , verification, verifyOTP} from "../Controllers/user.controller.js"
 import { isAuthenticated } from "../middlewares/isAuthenticated.js";
 
 const router = express.Router();
@@ -9,5 +9,6 @@ router.post("/verify" , verification)
 router.post("/login" , loginUser)
 router.post("/logout" , isAuthenticated , logoutUser)
 router.post("/forgot-password" , forgotPassword);
+router.post("/verify-otp/:email" , verifyOTP);
 
 export default router;

@@ -202,7 +202,7 @@ export const forgotPassword = async (req, res) => {
 
     user.otp = otp;
 
-    user.optExpiry = expiry;
+    user.otpExpiry = expiry;
 
     await user.save();
 
@@ -214,3 +214,43 @@ export const forgotPassword = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const verifyOTP = async(req , res) => {
+  const {otp} = req.body;
+
+  const email = req.params.email;
+
+  if(!otp){
+    return res.status(400).json({success : false , message : "OTP is required"});
+  }
+
+  try{
+    const user = await User.findOne({email});
+
+    if(!user){
+      return res.status(404).json({success : false , message : "User not Found"});
+    }
+
+    if(!user.otp || !user.otpExpiry){
+       return res.status(400).json({success : false , message : "OTP not generated or already verified"});
+    }
+
+    if(user.otpExpiry < new Date()){
+      return res.status(400).json({success : false , message :  "Otp expired"});
+    }
+
+    if(otp !== user.otp){
+      return res.status(400).json({success : false , message : "Invalid Otp"});
+    }
+
+    user.otp = null;
+    user.otpExpiry = null;
+
+    await user.save();
+
+    return res.status(200).json({success : true , message : "Otp verified Successfully"});
+  }
+  catch(error){
+    return res.status(500).json({success : false , message : "Internal server error"}); 
+  }
+}

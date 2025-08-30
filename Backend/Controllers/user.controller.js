@@ -157,11 +157,27 @@ export const loginUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: `Welcome back ${user.name}`,
+      message: `Welcome back ${user.username}`,
       accessToken,
       refreshToken,
       user,
     });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const logoutUser = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    await Session.deleteMany({ userId });
+
+    await User.findByIdAndUpdate(userId, { isLoggedIn: false });
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Logged out Successfully" });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

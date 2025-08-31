@@ -1,18 +1,24 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-
 //PAGES
 import Home from "./Pages/Home";
 import SignUpPage from "./Pages/SignUpPage";
 import LoginPage from "./Pages/LoginPage";
 import VerifyEmailPage from "./Pages/EmailVerificationPage";
 import Verify from "./Pages/Verify";
+import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoutes";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <ProtectedRoute>
+        <Navbar />
+        <Home />,
+      </ProtectedRoute>
+    ),
   },
 
   {
@@ -21,13 +27,13 @@ const router = createBrowserRouter([
   },
 
   {
-    path : "/verify",
-    element: <VerifyEmailPage/>
+    path: "/verify",
+    element: <VerifyEmailPage />,
   },
 
   {
-    path : "/verify/:token",
-    element: <Verify/>
+    path: "/verify/:token",
+    element: <Verify />,
   },
 
   {

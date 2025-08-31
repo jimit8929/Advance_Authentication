@@ -1,75 +1,157 @@
 import React, { useState } from "react";
-import { motion } from "motion/react";
-import { Mail, Lock, Loader } from "lucide-react";
-import { Link } from "react-router-dom";
-import Input from "../components/Input";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import axios from "axios";
+import { toast } from "sonner";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const isLoading = false;
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(formData);
+
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
+        "http://localhost:5000/user/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-2xl rounded-2xl shadow-xl overflow-hidden"
-    >
-      <div className="p-8">
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
-          Welcome Back
-        </h2>
+    <div className="relative w-full h-screen md:h-[760px] bg-green-100 overflow-hidden">
+      <div className="min-h-screen flex flex-col tomuted/20">
+        <div className="flex-1 flex items-center justify-center p-4">
+          <div className="w-full max-w-md space-y-6">
+            <div className="text-center space-y-2">
+              <h1 className="text-3xl font-bold tracking-tight text-green-600">
+                Login into your Account
+              </h1>
+              <p>Start organizing your thoughts and ideas today</p>
+            </div>
 
-        <form onSubmit={handleLogin}>
-          <Input
-            icon={Mail}
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+            <Card className="w-full max-w-sm">
+              <CardHeader className="space-y-1">
+                <CardTitle className="text-2xl text-center text-green-600">
+                  Login
+                </CardTitle>
+                <CardDescription className="text-center">
+                  Login into your account
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col gap-6">
+                  <div className="grid gap-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      type="email"
+                      placeholder="m@example.com"
+                      required
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password">Password</Label>
+                      <Link to={"/forgot-password"} className="text-sm hover:underline">Forgot your password?</Link>
+                    </div>
 
-          <Input
-            icon={Lock}
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your Password"
+                        required
+                      />
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                        disabled={isLoading}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4 text-gray-600" />
+                        ) : (
+                          <Eye className="w-4 h-4 text-gray-600" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
 
-          <div className="flex items-center mb-6">
-            <Link
-              to="/forgot-password"
-              className="text-sm text-green-400 hover:underline"
-            >
-              Forgot Password?
-            </Link>
+              <CardFooter className="flex-col gap-2">
+                <Button
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="w-full bg-green-600 hover:bg-green-500"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Login into your account...
+                    </>
+                  ) : (
+                    "login"
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
           </div>
-
-          <motion.button
-            className="w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.95 }}
-            type="submit"
-          >
-            {isLoading ? <Loader className="w-6 h-6 animate-spin mx-auto"/> : "Login"}
-          </motion.button>
-        </form>
+        </div>
       </div>
-
-    <div className="px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center">
-      <p className="text-sm text-gray-400">
-        Don't Have an Account?{"  "}
-        <Link to="/signup" className="text-green-400 hover:underline">Sign Up</Link>
-      </p>
     </div>
-
-    </motion.div>
   );
 };
 

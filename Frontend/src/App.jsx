@@ -7,6 +7,12 @@ import SignUpPage from "./Pages/SignUpPage";
 import LoginPage from "./Pages/LoginPage";
 import VerifyEmailPage from "./Pages/EmailVerificationPage";
 import Verify from "./Pages/Verify";
+import ForgotPassword from "./Pages/ForgotPassword";
+import VerifyOtp from "./Pages/VerifyOtp";
+import ChangePassword from "./Pages/ChangePassword";
+
+
+//COMPONENTS
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoutes";
 
@@ -40,6 +46,21 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
+
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
+
+  {
+    path: "/verify-otp/:email",
+    element: <VerifyOtp />,
+  },
+
+  {
+    path:"/change-password/:email",
+    element: <ChangePassword/>
+  }
 ]);
 
 const App = () => {

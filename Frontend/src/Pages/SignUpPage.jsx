@@ -143,6 +143,8 @@ export default function SignUpPage() {
             >
               Login
             </button>
+
+            
           </CardFooter>
         </Card>
       </div>

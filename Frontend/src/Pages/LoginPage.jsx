@@ -17,6 +17,8 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { getData } from "@/context/userContext";
 
+import Google from "../assets/googleLogo.png"
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -111,22 +113,29 @@ export default function LoginPage() {
                 <p id="passwordHelp" className="mt-2 text-xs text-gray-500">Keep your account safe — don’t share your password.</p>
               </div>
 
-              <div className="pt-2">
-                <Button type="submit" disabled={isLoading} className="w-full flex items-center justify-center gap-2">
+              <div className="pt-2 flex flex-col space-y-2 items-center justify-center">
+                <Button type="submit" disabled={isLoading} className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500">
                   {isLoading ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Signing in...
+                      Logging into your account...
                     </>
                   ) : (
-                    "Sign in"
+                    "Login"
                   )}
+                </Button>
+
+                <p>or</p>
+
+                <Button variant="outline" className="w-full" onClick={() => window.open("http://localhost:5000/auth/google" , "_self")}>
+                  <img src={Google} alt="" className="w-5 h-5"/>
+                  Login with Google
                 </Button>
               </div>
             </form>
           </CardContent>
 
-          <CardFooter className="bg-green-50 p-4 flex flex-col items-center gap-2">
+          <CardFooter className="bg-green-50 p-2 flex flex-col items-center gap-2">
             <p className="text-sm">Don’t have an account?</p>
             <Link to="/signup" className="text-sm underline text-green-600">Create one</Link>
           </CardFooter>

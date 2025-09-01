@@ -43,6 +43,7 @@ export const isAuthenticated = async (req, res, next) => {
       }
 
       req.userId = user._id;
+      req.user = user;
       next();
     });
   } catch (error) {

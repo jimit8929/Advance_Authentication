@@ -9,11 +9,20 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
+
+
+    //integrating google login
+    googleId: {
+      type: String,
+    },
+
+    avatar: {
+      type: String,
+    },
+
     username: {
       type: String,
-      required: true,
     },
     isVerified: {
       type: Boolean,

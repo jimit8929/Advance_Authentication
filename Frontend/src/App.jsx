@@ -15,15 +15,16 @@ import ChangePassword from "./Pages/ChangePassword";
 //COMPONENTS
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoutes";
+import AuthSuccess from "./Pages/AuthSuccess";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute>
+      <>
         <Navbar />
         <Home />,
-      </ProtectedRoute>
+      </>
     ),
   },
 
@@ -45,6 +46,11 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+
+  {
+    path : "/auth-success",
+    element : <AuthSuccess/>
   },
 
   {

@@ -59,8 +59,14 @@ const Navbar = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar className="bg-green-200 flex items-center justify-center">
-                    <AvatarImage src={user?.Avatar} />
-                  {user?.username ? user.username.trim().charAt(0).toUpperCase() : "U"}
+                    {/* Use lowercase avatar */}
+                    {user?.avatar ? (
+                      <AvatarImage src={user.avatar} alt={user.username || "User"} />
+                    ) : (
+                      <AvatarFallback>
+                        {user?.username ? user.username.trim().charAt(0).toUpperCase() : "U"}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>

@@ -1,6 +1,6 @@
 # 🔐 Advanced Authentication System
 
-A comprehensive full-stack authentication system built with the MERN stack, featuring email verification with OTP, password reset functionality, and Google OAuth integration. This project demonstrates modern authentication practices and security implementations.
+A comprehensive full-stack authentication system built with the MERN stack, featuring <strong>Email Verification with OTP, Password Reset Functionality,</strong> and <strong>Google OAuth Integration.</strong> This project demonstrates modern authentication practices and security implementations.
 
 ## ✨ Features
 
